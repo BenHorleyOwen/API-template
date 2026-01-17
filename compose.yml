@@ -1,0 +1,16 @@
+services:
+  mini-simple-db-mysql:
+    container_name: mini-simple-db
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassbleh
+      MYSQL_USER: Euclid
+      MYSQL_PASSWORD: star
+      MYSQL_DATABASE: simple_db
+    ports:
+      - "3306:3306"
+    networks:
+      - db_pythonrest_network
+networks:
+  db_pythonrest_network:
