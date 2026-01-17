@@ -10,6 +10,8 @@ services:
       MYSQL_DATABASE: simple_db
     ports:
       - "3306:3306"
+    volumes:
+      - "./db/simple_db.sql:/docker-entrypoint-initdb.d/1.sql"
     networks:
       - db_pythonrest_network
 networks:
