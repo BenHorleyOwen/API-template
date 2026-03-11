@@ -4,10 +4,16 @@ services:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassbleh
+      MYSQL_ROOT_PASSWORD: ${ROOTPASS}
       MYSQL_USER: Euclid
-      MYSQL_PASSWORD: star
+      MYSQL_PASSWORD: ${DBPASSWORD}
       MYSQL_DATABASE: simple_db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     ports:
       - "3306:3306"
     volumes:
@@ -20,12 +26,13 @@ services:
     environment: 
       DB_HOST: mini-simple-db
       DB_USER: Euclid
-      DB_PASSWORD: star
+      DB_PASSWORD: ${DBPASSWORD}
       DB_NAME: simple_db
     ports: 
       - "3000:3000"
     depends_on:
-      - mini-simple-db-mysql
+      mini-simple-db-mysql:
+        condition: service_healthy  
     networks:
       - db_pythonrest_network
 networks:
