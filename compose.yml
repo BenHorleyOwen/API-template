@@ -8,12 +8,6 @@ services:
       MYSQL_USER: Euclid
       MYSQL_PASSWORD: ${DBPASSWORD}
       MYSQL_DATABASE: simple_db
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
     ports:
       - "3306:3306"
     volumes:
@@ -31,8 +25,7 @@ services:
     ports: 
       - "3000:3000"
     depends_on:
-      mini-simple-db-mysql:
-        condition: service_healthy  
+      - mini-simple-db-mysql
     networks:
       - db_pythonrest_network
 networks:
